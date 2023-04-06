@@ -16,6 +16,9 @@ let projectActions = {
   getTasks() {
     return this.list;
   },
+  getName() {
+    return this.name;
+  },
 };
 
 const createProject = (name) => {
