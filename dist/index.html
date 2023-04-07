@@ -1,41 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-  
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ToDoList</title>
- 
-</head>
-<body>
+  </head>
+  <body>
     <script src="main.js" defer></script>
     <header>TaskTime</header>
     <div class="wrapper">
-    
       <div class="projectPane" id="title">
-          <h2>Projects</h2>
+        <h2>Projects</h2>
         <div class="projectContainer">
-          <div class="project" ><i class="fa-solid fa-bars"></i>work tasks</div>
+          <div class="project"><i class="fa-solid fa-bars"></i>work tasks</div>
           <div class="project"><i class="fa-solid fa-bars"></i>work tasks</div>
         </div>
 
         <form action="" id="newProject">
-          <input type="text" id="projectName" name=""> 
-          <input type="submit" value="+">  
+          <input type="text" id="projectName" name="" />
+          <input type="submit" value="+" />
         </form>
 
         <button class="projectCreate">+ new project</button>
       </div>
-      
-      <div class="taskPane" id="title"> 
-         <h2>Tasks</h2>
-         <div class="taskContainer">
-           <div class="task"><i class="fa-regular fa-circle-check"></i>I am a task that I need to complete<i class="fa-solid fa-circle-exclamation"></i></div>
-         </div>
-         <button class="taskCreation">+ new task</button>
+
+      <div class="taskPane" id="title">
+        <h2>Tasks</h2>
+        <div class="taskContainer">
+          <div class="task">
+            <i class="fa-regular fa-circle-check"></i>I am a task that I need to
+            complete<i class="fa-solid fa-circle-exclamation"></i>
+          </div>
+        </div>
+        
+        <form action="" id="newTask">
+          <label for="taskName">Task</label>
+          <input type="text" id="taskName" name="" />
+    
+          <label for="freeform">Description</label>
+          <textarea id="freeform" name="freeform" rows="4" cols="50"> </textarea>
+    
+          <div>
+            <label for="alert">Important?</label>
+            <input type="checkbox" id="alert" name="" />
+          </div>
+    
+          <label for="date">Due Date</label>
+          <input type="date" id="date" name="" />
+    
+          <div>
+            <label for="Complete">Completed?</label>
+            <input type="checkbox" id="complete" name="" />
+          </div>
+    
+          <input type="submit" value="submit" />
+        </form>
+
+        <button class="taskCreation">+ new task</button>
       </div>
     </div>
-    
-        </div>
-</body>
+  </body>
 </html>

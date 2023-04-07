@@ -12,7 +12,9 @@ import { addToPane } from "./domController";
 
 const createProjectBtn = document.querySelector(".projectCreate");
 const projectContainer = document.querySelector(".projectContainer");
-let projectForm =  document.getElementById("newProject");;
+let projectForm =  document.getElementById("newProject");
+let taskForm =  document.getElementById("newTask");
+let newtaskBtn =  document.querySelector(".taskCreation");
 
 function component() {
   const element = document.createElement("div");
@@ -35,6 +37,10 @@ function component() {
 
 createProjectBtn.addEventListener("click", function () {
   projectForm.style.display="block";
+});
+
+newtaskBtn.addEventListener("click",function(){
+  taskForm.style.display="flex";
 });
 
 projectForm.addEventListener("submit", (e) => {
