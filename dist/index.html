@@ -4,19 +4,26 @@
     <meta charset="UTF-8">
   
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ToDoList</title>
  
 </head>
 <body>
-    <script src="main.js"></script>
+    <script src="main.js" defer></script>
     <header>TaskTime</header>
     <div class="wrapper">
+    
       <div class="projectPane" id="title">
           <h2>Projects</h2>
         <div class="projectContainer">
           <div class="project" ><i class="fa-solid fa-bars"></i>work tasks</div>
           <div class="project"><i class="fa-solid fa-bars"></i>work tasks</div>
         </div>
+
+        <form action="" id="newProject">
+          <input type="text" id="projectName" name=""> 
+          <input type="submit" value="+">  
+        </form>
+
         <button class="projectCreate">+ new project</button>
       </div>
       
