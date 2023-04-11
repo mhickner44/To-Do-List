@@ -24,6 +24,8 @@ let taskActions = {
   },
   getTasks() {
     return this;
+  }, setDate(date) {
+    this.date = date;
   },
 };
 

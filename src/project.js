@@ -19,13 +19,14 @@ let projectActions = {
   getName() {
     return this.name;
   },
+  
 };
 
-const createProject = (name) => {
+const createProject = (name,projlist) => {
   const list = [];
   let project = Object.create(projectActions);
   project.name = name;
-  project.list=list;
- 
+  project.list = projlist;
+
   return project;
 };

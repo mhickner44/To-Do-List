@@ -10,16 +10,13 @@ Storage.prototype.getObject = function (key) {
 
 const storage = (() => {
   
-//     const getStorage = () => {
-
-//   };
 
   const storeProject = (project) => {
     localStorage.setObject(project.getName(), project);
   };
 
   const getProject = (project) => {
-    return  localStorage.getObject(project.getName());
+    return  localStorage.getObject(project);
   };
 
   return {storeProject,getProject};

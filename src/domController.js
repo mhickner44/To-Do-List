@@ -1,6 +1,7 @@
 import { storage } from "./storeInfo.js";
 export { addToPane };
 export { loadTasks };
+import { logic } from "./logic.js";
 
 let taskContainer = document.querySelector(".taskContainer");
 
@@ -8,27 +9,23 @@ const addToPane = (projectName) => {
   const projectDiv = document.createElement("button");
   projectDiv.classList = "project";
   projectDiv.innerHTML = `<i class="fa-solid fa-bars"></i>${projectName}`;
+  projectDiv.setAttribute("data-name", projectName);
 
   //get project and display event
   projectDiv.addEventListener("click", function () {
-    // loadTasks(this.innerText);
-    
+    // i need to get the project itself with a function
+    loadTasks(this.getAttribute("data-name"));
+    logic.setCurrentProject(this.getAttribute("data-name"));
   });
 
   return projectDiv;
 };
 
-
-
-
 const loadTasks = (project) => {
-  
-
   let information = storage.getProject(project);
 
   for (let i in information.list) {
     const taskDiv = document.createElement("div");
-    
 
     if (information.list[i].alert != true) {
       taskDiv.innerHTML = `
