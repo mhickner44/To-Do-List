@@ -23,7 +23,7 @@ let taskContainer = document.querySelector(".taskContainer");
 
 function component() {
   const element = document.createElement("div");
-  logic.setCurrentProject("test");
+  // logic.setCurrentProject("test");
   // ------------------------initial tasks------------------------------
   // let workProject = createProject("work List");
 
@@ -55,14 +55,17 @@ projectForm.addEventListener("submit", (e) => {
   projectForm.style.display = "none";
   insertBefore(addToPane(projectName.value), projectContainer.lastChild);
 
+  //setting the current project
+  
+    logic.setCurrentProject(projectName.value);
+    
+  
+
+
   //logically create
   let tempList=[];
   let newProject = createProject(projectName.value,tempList);
-  let task1 = createTask("clean room");
-  task1.addDescription("I need to go to the store to get clothes");
-  task1.setAlert();
 
-  newProject.addTask(task1);
 
   storage.storeProject(newProject);
   projectForm.reset();
@@ -70,8 +73,8 @@ projectForm.addEventListener("submit", (e) => {
 
 taskForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  projectForm.style.display = "none";
-  insertBefore(addToPane(projectName.value), projectContainer.lastChild);
+  taskForm.style.display = "none";
+
 
   //logically create
 

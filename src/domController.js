@@ -16,6 +16,7 @@ const addToPane = (projectName) => {
     // i need to get the project itself with a function
     loadTasks(this.getAttribute("data-name"));
     logic.setCurrentProject(this.getAttribute("data-name"));
+    //CHANGE THIS button to display a highlighted background and only this one
   });
 
   return projectDiv;
