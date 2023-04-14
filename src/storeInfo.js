@@ -7,6 +7,9 @@ Storage.prototype.setObject = function (key, value) {
 Storage.prototype.getObject = function (key) {
   return JSON.parse(this.getItem(key));
 };
+Storage.prototype.getStorage = function (key) {
+  return JSON.parse(this.JSON);
+};
 
 const storage = (() => {
   
@@ -19,5 +22,10 @@ const storage = (() => {
     return  localStorage.getObject(project);
   };
 
-  return {storeProject,getProject};
+  const getStorage = () => {
+    return  localStorage.getStorage();
+  };
+
+
+  return {storeProject,getProject,getStorage};
 })();

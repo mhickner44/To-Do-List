@@ -8,10 +8,10 @@ import "@fortawesome/fontawesome-free/js/brands";
 import { createProject } from "./project.js";
 import { createTask } from "./task.js";
 import { storage } from "./storeInfo.js";
-import { addToPane } from "./domController";
+import { addToPane, loadTasks } from "./domController";
 import { loadAddedTask } from "./domController";
 import { logic } from "./logic.js";
-
+import { initialLoad } from "./domController";
 const createProjectBtn = document.querySelector(".projectCreate");
 const projectContainer = document.querySelector(".projectContainer");
 const projectBtn = document.querySelector(".project");
@@ -22,29 +22,26 @@ let currentProject = null;
 let taskContainer = document.querySelector(".taskContainer");
 
 function component() {
-  const element = document.createElement("div");
-  // logic.setCurrentProject("test");
-  // ------------------------initial tasks------------------------------
-  // let workProject = createProject("work List");
-
-  // let task = createTask("go to the store");
-  // let task1 = createTask("clean room");
-
-  // storage.storeProject(workProject);
-
-  // ------------------------load the tasks------------------------------
-
-  // taskContainer.appendChild(loadTasks(workProject));
-  // loadTasks(workProject)
-
-  return element;
+  //onload check for information
+  if (localStorage.length >=1 ) {
+    // projectContainer.appendChild(initialLoad());
+    initialLoad();
+    //load projectset the last project
+    // let initialProject = localStorage.key(localStorage.length - 1);
+    logic.setCurrentProject(localStorage.key(0));
+    loadTasks(logic.getCurrentProject());
+  }
 }
+
+
+component();
+
 
 //loading the work tasks
 
 createProjectBtn.addEventListener("click", function () {
   projectForm.style.display = "block";
-  taskContainer.innerHTML="";
+  taskContainer.innerHTML = "";
 });
 
 newtaskBtn.addEventListener("click", function () {
@@ -54,19 +51,15 @@ newtaskBtn.addEventListener("click", function () {
 projectForm.addEventListener("submit", (e) => {
   e.preventDefault();
   projectForm.style.display = "none";
-  insertBefore(addToPane(projectName.value), projectContainer.lastChild);
-
+  // insertBefore(addToPane(projectName.value), projectContainer.lastChild);
+  projectContainer.appendChild(addToPane(projectName.value));
   //setting the current project
-  
-    logic.setCurrentProject(projectName.value);
-    
-  
 
+  logic.setCurrentProject(projectName.value);
 
   //logically create
-  let tempList=[];
-  let newProject = createProject(projectName.value,tempList);
-
+  let tempList = [];
+  let newProject = createProject(projectName.value, tempList);
 
   storage.storeProject(newProject);
   projectForm.reset();
@@ -75,29 +68,27 @@ projectForm.addEventListener("submit", (e) => {
 taskForm.addEventListener("submit", (e) => {
   e.preventDefault();
   taskForm.style.display = "none";
-  
-  let alertValue=document.getElementById("alert");
-  loadAddedTask(taskName.value,alertValue.checked);
-  
 
+  let alertValue = document.getElementById("alert");
+  loadAddedTask(taskName.value, alertValue.checked);
 
-//logically create
+  //logically create
   let task = createTask(taskName.value);
   task.addDescription(freeform.value);
   task.setAlert(alertValue.checked);
   task.setDate(date.value);
 
-let currentProjName = storage.getProject(logic.getCurrentProject());
-let currentProj= createProject(currentProjName.name,currentProjName.list);
- 
+  let currentProjName = storage.getProject(logic.getCurrentProject());
+  let currentProj = createProject(currentProjName.name, currentProjName.list);
+
   currentProj.addTask(task);
 
   storage.storeProject(currentProj);
   taskForm.reset();
 });
 
-document.body.appendChild(component());
+// document.body.appendChild(component());
 
-function insertBefore(newNode, existingNode) {
-  existingNode.parentNode.insertBefore(newNode, existingNode);
-}
+// function insertBefore(newNode, existingNode) {
+//   existingNode.parentNode.insertBefore(newNode, existingNode);
+// }

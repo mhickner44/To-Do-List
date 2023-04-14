@@ -4,8 +4,18 @@ import { logic } from "./logic.js";
 export { addToPane };
 export { loadTasks };
 export { loadAddedTask };
+export { initialLoad };
 
 let taskContainer = document.querySelector(".taskContainer");
+let projectContainer = document.querySelector(".projectContainer");
+const initialLoad = () => {
+  // let div=document.createElement("div");
+  for (let i=localStorage.length; i>=0;i--) {
+   let project=localStorage.key(i);
+   projectContainer.appendChild(addToPane(project));
+  }
+  return projectContainer;
+};
 
 const addToPane = (projectName) => {
   const projectDiv = document.createElement("div");
@@ -26,7 +36,7 @@ const addToPane = (projectName) => {
   input.type = "radio";
   input.id = projectName;
   input.name = "options";
-  input.checked=true;
+  input.checked = true;
 
   projectDiv.appendChild(input);
   projectDiv.appendChild(projectLabel);
@@ -34,7 +44,7 @@ const addToPane = (projectName) => {
   projectLabel.addEventListener("click", function () {
     // i need to get the project itself with a function
 
-    taskContainer.innerHTML="";
+    taskContainer.innerHTML = "";
     loadTasks(this.getAttribute("data-name"));
     logic.setCurrentProject(this.getAttribute("data-name"));
   });
@@ -81,7 +91,6 @@ const loadAddedTask = (projName, alert) => {
       <i class="fa-solid fa-circle-exclamation" style="color:${color};"></i>
   </div>`;
 
-//add 
-taskContainer.appendChild(taskDiv);
-
+  //add
+  taskContainer.appendChild(taskDiv);
 };

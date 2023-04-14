@@ -1,7 +1,5 @@
 export { createTask };
 
-
-
 let taskActions = {
   addDescription(description) {
     this.description = description;
@@ -9,15 +7,20 @@ let taskActions = {
   completeTask() {
     this.status = true;
   },
-  setAlert() {
-    this.alert = true;
+  setAlert(value) {
+    if (value == true) {
+      this.alert = true;
+    } else {
+      this.alert = false;
+    }
   },
-  removeAlert(){
-    this.alert=false;
+  removeAlert() {
+    this.alert = false;
   },
   getTasks() {
     return this;
-  }, setDate(date) {
+  },
+  setDate(date) {
     this.date = date;
   },
 };
