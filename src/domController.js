@@ -1,22 +1,42 @@
 import { storage } from "./storeInfo.js";
+import { logic } from "./logic.js";
+
 export { addToPane };
 export { loadTasks };
-import { logic } from "./logic.js";
+export { loadAddedTask };
 
 let taskContainer = document.querySelector(".taskContainer");
 
 const addToPane = (projectName) => {
-  const projectDiv = document.createElement("button");
-  projectDiv.classList = "project";
-  projectDiv.innerHTML = `<i class="fa-solid fa-bars"></i>${projectName}`;
-  projectDiv.setAttribute("data-name", projectName);
+  const projectDiv = document.createElement("div");
+  projectDiv.classList.add("projectChoice");
 
-  //get project and display event
-  projectDiv.addEventListener("click", function () {
+  const projectLabel = document.createElement("label");
+  projectLabel.classList = "project";
+  projectLabel.htmlFor = projectName;
+  projectLabel.textContent = projectName;
+  projectLabel.setAttribute("data-name", projectName);
+
+  //icon creation
+  const icon = document.createElement("i");
+  icon.classList.add("fa-solid", "fa-bars");
+
+  const input = document.createElement("input");
+
+  input.type = "radio";
+  input.id = projectName;
+  input.name = "options";
+  input.checked=true;
+
+  projectDiv.appendChild(input);
+  projectDiv.appendChild(projectLabel);
+
+  projectLabel.addEventListener("click", function () {
     // i need to get the project itself with a function
+
+    taskContainer.innerHTML="";
     loadTasks(this.getAttribute("data-name"));
     logic.setCurrentProject(this.getAttribute("data-name"));
-    //CHANGE THIS button to display a highlighted background and only this one
   });
 
   return projectDiv;
@@ -46,4 +66,22 @@ const loadTasks = (project) => {
   }
 
   return taskContainer;
+};
+
+const loadAddedTask = (projName, alert) => {
+  const taskDiv = document.createElement("div");
+  let color = "white";
+  if (alert == true) {
+    color = "red";
+  }
+
+  taskDiv.innerHTML = `
+  <div class="task">
+      <i class="fa-regular fa-circle-check"></i>${projName}
+      <i class="fa-solid fa-circle-exclamation" style="color:${color};"></i>
+  </div>`;
+
+//add 
+taskContainer.appendChild(taskDiv);
+
 };

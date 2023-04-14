@@ -9,7 +9,7 @@ import { createProject } from "./project.js";
 import { createTask } from "./task.js";
 import { storage } from "./storeInfo.js";
 import { addToPane } from "./domController";
-import { loadTasks } from "./domController";
+import { loadAddedTask } from "./domController";
 import { logic } from "./logic.js";
 
 const createProjectBtn = document.querySelector(".projectCreate");
@@ -44,6 +44,7 @@ function component() {
 
 createProjectBtn.addEventListener("click", function () {
   projectForm.style.display = "block";
+  taskContainer.innerHTML="";
 });
 
 newtaskBtn.addEventListener("click", function () {
@@ -74,20 +75,23 @@ projectForm.addEventListener("submit", (e) => {
 taskForm.addEventListener("submit", (e) => {
   e.preventDefault();
   taskForm.style.display = "none";
+  
+  let alertValue=document.getElementById("alert");
+  loadAddedTask(taskName.value,alertValue.checked);
+  
 
 
-  //logically create
-
+//logically create
   let task = createTask(taskName.value);
   task.addDescription(freeform.value);
-  task.setAlert(alert.value);
+  task.setAlert(alertValue.checked);
   task.setDate(date.value);
 
-  let currentProjName = storage.getProject(logic.getCurrentProject());
-
-  let currentProj= createProject(currentProjName.name,currentProjName.list);
+let currentProjName = storage.getProject(logic.getCurrentProject());
+let currentProj= createProject(currentProjName.name,currentProjName.list);
+ 
   currentProj.addTask(task);
-// let proj= currentProj.getName();
+
   storage.storeProject(currentProj);
   taskForm.reset();
 });

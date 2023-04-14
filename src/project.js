@@ -1,13 +1,6 @@
 export { createProject };
 
-// -get
-// -tasks
-// -name
-// -set
-// -name
 
-// -add
-// -tasks
 
 let projectActions = {
   addTask(task) {

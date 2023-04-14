@@ -1,13 +1,6 @@
 export { createTask };
 
-// -get
-// -tasks
-// -name
-// -set
-// -name
 
-// -add
-// -tasks
 
 let taskActions = {
   addDescription(description) {
