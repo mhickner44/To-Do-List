@@ -12,6 +12,7 @@ import { addToPane, loadTasks } from "./domController";
 import { loadAddedTask } from "./domController";
 import { logic } from "./logic.js";
 import { initialLoad } from "./domController";
+
 const createProjectBtn = document.querySelector(".projectCreate");
 const projectContainer = document.querySelector(".projectContainer");
 const projectBtn = document.querySelector(".project");
@@ -21,9 +22,11 @@ let newtaskBtn = document.querySelector(".taskCreation");
 let currentProject = null;
 let taskContainer = document.querySelector(".taskContainer");
 
+let exitTask = document.querySelector(".exit");
+
 function component() {
   //onload check for information
-  if (localStorage.length >=1 ) {
+  if (localStorage.length >= 1) {
     // projectContainer.appendChild(initialLoad());
     initialLoad();
     //load projectset the last project
@@ -33,9 +36,7 @@ function component() {
   }
 }
 
-
 component();
-
 
 //loading the work tasks
 
@@ -87,8 +88,48 @@ taskForm.addEventListener("submit", (e) => {
   taskForm.reset();
 });
 
-// document.body.appendChild(component());
+let taskView = document.querySelector(".taskView");
+let taskBG = document.querySelector(".taskBG");
+exitTask.addEventListener("click", (e) => {
+  taskView.style.display = "none";
+  taskBG.style.display = "none";
+});
 
-// function insertBefore(newNode, existingNode) {
-//   existingNode.parentNode.insertBefore(newNode, existingNode);
-// }
+//task edit form
+let taskEditForm = document.getElementById("taskEdit");
+let updateTaskDiv = document.querySelector(".taskView");
+
+// let taskInput = document.getElementById("title");
+// let description = document.getElementById("description");
+// let date = document.getElementById("altDate");
+
+taskEditForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  taskView.style.display = "none";
+  taskBG.style.display = "none";
+
+  //get the project
+  let currentProj = storage.getProject(logic.getCurrentProject());
+  //get the current task
+  let currentIndex = updateTaskDiv.getAttribute("data-currentTask");
+
+  let currentTask = currentProj.list[currentIndex];
+
+  // let alertValue = document.getElementById("alert");
+
+  let index=updateTaskDiv.getAttribute("data-currentTask");
+
+  currentProj.list[index].name=editTitle.value;
+  currentProj.list[index].description=editDescription;
+  
+  
+  let replacement=createProject(currentProj.name);
+  replacement.setTasks(currentProj.list);
+  
+  //updated project
+  storage.storeProject(replacement);
+ // loadAddedTask(taskName.value, alertValue.checked);
+
+  taskForm.reset();
+   
+});

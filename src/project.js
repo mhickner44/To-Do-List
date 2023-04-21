@@ -12,6 +12,9 @@ let projectActions = {
   getName() {
     return this.name;
   },
+  setTasks(fullList) {
+    return this.list=fullList;
+  },
   
 };
 

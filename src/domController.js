@@ -8,11 +8,17 @@ export { initialLoad };
 
 let taskContainer = document.querySelector(".taskContainer");
 let projectContainer = document.querySelector(".projectContainer");
+let body = document.querySelector("body");
+
+let taskView = document.querySelector(".taskView");
+let taskBG = document.querySelector(".taskBG");
+
 const initialLoad = () => {
   // let div=document.createElement("div");
-  for (let i=localStorage.length; i>=0;i--) {
-   let project=localStorage.key(i);
-   projectContainer.appendChild(addToPane(project));
+  // for (let i=localStorage.length; i>=0;i--) {
+  for (let i = 0; i <= localStorage.length; i++) {
+    let project = localStorage.key(i);
+    projectContainer.appendChild(addToPane(project));
   }
   return projectContainer;
 };
@@ -80,6 +86,8 @@ const loadTasks = (project) => {
 
 const loadAddedTask = (projName, alert) => {
   const taskDiv = document.createElement("div");
+  // ------------------------------------------------------------------------
+
   let color = "white";
   if (alert == true) {
     color = "red";
@@ -90,7 +98,40 @@ const loadAddedTask = (projName, alert) => {
       <i class="fa-regular fa-circle-check"></i>${projName}
       <i class="fa-solid fa-circle-exclamation" style="color:${color};"></i>
   </div>`;
-
+  taskDiv.addEventListener("click", openTask);
   //add
   taskContainer.appendChild(taskDiv);
 };
+
+let taskInput = document.getElementById("editTitle");
+let description = document.getElementById("editDescription");
+let date = document.getElementById("editDate");
+let slider = document.getElementById("editAlert");
+// ----------------------------fill in the task pane--------------------------------------------
+function openTask() {
+  
+
+  // this. get the task name of the current project
+
+  let currentTask = this.textContent;
+  currentTask = currentTask.replaceAll(/\n/g, "");
+
+  //set attribute for the name so I can find it when I make changes
+  
+
+  let currentProj = storage.getProject(logic.getCurrentProject());
+
+  let index = Array.prototype.indexOf.call(this.parentNode.children, this);
+  
+  taskView.setAttribute("data-currentTask", index);
+
+  taskInput.value = currentProj.list[index].name
+  description.value = currentProj.list[index].description;
+  // slider.value
+  let updateDate = currentProj.list[index].dueDate;
+  date.value =updateDate.substring(0, 10);
+
+  taskView.style.display = "flex";
+  taskBG.style.display = "block";
+}
+
