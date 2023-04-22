@@ -98,9 +98,9 @@ exitTask.addEventListener("click", (e) => {
 //task edit form
 let taskEditForm = document.getElementById("taskEdit");
 let updateTaskDiv = document.querySelector(".taskView");
-
+let slider = document.getElementById("editAlert");
 // let taskInput = document.getElementById("title");
-// let description = document.getElementById("description");
+let editDescription = document.getElementById("editDescription");
 // let date = document.getElementById("altDate");
 
 taskEditForm.addEventListener("submit", (e) => {
@@ -120,8 +120,8 @@ taskEditForm.addEventListener("submit", (e) => {
   let index=updateTaskDiv.getAttribute("data-currentTask");
 
   currentProj.list[index].name=editTitle.value;
-  currentProj.list[index].description=editDescription;
-  
+  currentProj.list[index].description=editDescription.value;
+  currentProj.list[index].alert=slider.checked;
   
   let replacement=createProject(currentProj.name);
   replacement.setTasks(currentProj.list);
@@ -133,3 +133,6 @@ taskEditForm.addEventListener("submit", (e) => {
   taskForm.reset();
    
 });
+
+
+

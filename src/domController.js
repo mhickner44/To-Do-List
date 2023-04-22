@@ -63,7 +63,7 @@ const loadTasks = (project) => {
 
   for (let i in information.list) {
     const taskDiv = document.createElement("div");
-
+    taskDiv.addEventListener("click", openTask);
     if (information.list[i].alert != true) {
       taskDiv.innerHTML = `
       <div class="task">
@@ -117,7 +117,8 @@ function openTask() {
   currentTask = currentTask.replaceAll(/\n/g, "");
 
   //set attribute for the name so I can find it when I make changes
-  
+  //try to get the value of the slider 
+
 
   let currentProj = storage.getProject(logic.getCurrentProject());
 
@@ -129,9 +130,14 @@ function openTask() {
   description.value = currentProj.list[index].description;
   // slider.value
   let updateDate = currentProj.list[index].dueDate;
+  slider.checked=currentProj.list[index].alert;
+
   date.value =updateDate.substring(0, 10);
 
   taskView.style.display = "flex";
   taskBG.style.display = "block";
 }
+
+
+
 
