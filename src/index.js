@@ -15,7 +15,7 @@ import { initialLoad } from "./domController";
 
 const createProjectBtn = document.querySelector(".projectCreate");
 const projectContainer = document.querySelector(".projectContainer");
-const projectBtn = document.querySelector(".project");
+
 let projectForm = document.getElementById("newProject");
 let taskForm = document.getElementById("newTask");
 let newtaskBtn = document.querySelector(".taskCreation");
@@ -29,8 +29,6 @@ function component() {
   if (localStorage.length >= 1) {
     // projectContainer.appendChild(initialLoad());
     initialLoad();
-    //load projectset the last project
-    // let initialProject = localStorage.key(localStorage.length - 1);
     logic.setCurrentProject(localStorage.key(0));
     loadTasks(logic.getCurrentProject());
   }
@@ -79,6 +77,7 @@ taskForm.addEventListener("submit", (e) => {
   task.setAlert(alertValue.checked);
   task.setDate(date.value);
 
+
   let currentProjName = storage.getProject(logic.getCurrentProject());
   let currentProj = createProject(currentProjName.name, currentProjName.list);
 
@@ -95,28 +94,23 @@ exitTask.addEventListener("click", (e) => {
   taskBG.style.display = "none";
 });
 
-//task edit form
+
 let taskEditForm = document.getElementById("taskEdit");
 let updateTaskDiv = document.querySelector(".taskView");
 let slider = document.getElementById("editAlert");
-// let taskInput = document.getElementById("title");
 let editDescription = document.getElementById("editDescription");
-// let date = document.getElementById("altDate");
+
 
 taskEditForm.addEventListener("submit", (e) => {
   e.preventDefault();
   taskView.style.display = "none";
   taskBG.style.display = "none";
 
-  //get the project
+
   let currentProj = storage.getProject(logic.getCurrentProject());
-  //get the current task
+
   let currentIndex = updateTaskDiv.getAttribute("data-currentTask");
-
   let currentTask = currentProj.list[currentIndex];
-
-  // let alertValue = document.getElementById("alert");
-
   let index=updateTaskDiv.getAttribute("data-currentTask");
 
   currentProj.list[index].name=editTitle.value;
@@ -128,11 +122,12 @@ taskEditForm.addEventListener("submit", (e) => {
   
   //updated project
   storage.storeProject(replacement);
- // loadAddedTask(taskName.value, alertValue.checked);
-
+ 
+ //empty tasks container and then add them back
+ taskContainer.innerHTML = "";
+ loadTasks(logic.getCurrentProject());
   taskForm.reset();
    
 });
-
 
 

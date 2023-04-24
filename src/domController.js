@@ -1,5 +1,6 @@
 import { storage } from "./storeInfo.js";
 import { logic } from "./logic.js";
+import { createProject } from "./project.js";
 
 export { addToPane };
 export { loadTasks };
@@ -60,23 +61,32 @@ const addToPane = (projectName) => {
 
 const loadTasks = (project) => {
   let information = storage.getProject(project);
+  let alertIcon = "";
+  let completeIcon = "";
+  //two values that cna change
+  //the style for the exclamation color
+  let color = "white";
 
   for (let i in information.list) {
-    const taskDiv = document.createElement("div");
-    taskDiv.addEventListener("click", openTask);
-    if (information.list[i].alert != true) {
-      taskDiv.innerHTML = `
-      <div class="task">
-          <i class="fa-regular fa-circle-check"></i>${information.list[i].name}
-          <i class="fa-solid fa-circle-exclamation" style="color:white;"></i>
-      </div>`;
-    } else {
-      taskDiv.innerHTML = `
-      <div class="task">
-          <i class="fa-regular fa-circle-check"></i>${information.list[i].name}
-          <i class="fa-solid fa-circle-exclamation"></i>
-      </div>`;
+    if (information.list[i].alert == true) {
+      //add the id to the html in a value
+      color = "red";
     }
+
+    if (information.list[i].status != true) {
+      //add the id to the html in a value
+      completeIcon = `id="incomplete"`;
+    }
+    const taskDiv = document.createElement("div");
+    taskDiv.classList.add("task");
+
+    taskDiv.innerHTML = `
+    <button class="edit">edit</button><p>${information.list[i].name}</p>
+          <i class="fa-solid fa-circle-exclamation" style="color:${color}"></i>
+     `;
+
+    taskDiv.firstElementChild.addEventListener("click", openTask);
+    taskDiv.children[1].addEventListener("click", completeTask);
 
     taskContainer.appendChild(taskDiv);
   }
@@ -86,6 +96,7 @@ const loadTasks = (project) => {
 
 const loadAddedTask = (projName, alert) => {
   const taskDiv = document.createElement("div");
+  taskDiv.classList.add("task");
   // ------------------------------------------------------------------------
 
   let color = "white";
@@ -94,50 +105,67 @@ const loadAddedTask = (projName, alert) => {
   }
 
   taskDiv.innerHTML = `
-  <div class="task">
-      <i class="fa-regular fa-circle-check"></i>${projName}
+     <button class="edit">edit</button><p >${projName}</p>
       <i class="fa-solid fa-circle-exclamation" style="color:${color};"></i>
-  </div>`;
-  taskDiv.addEventListener("click", openTask);
+`;
+
+  taskDiv.firstElementChild.addEventListener("click", openTask);
+  taskDiv.children[1].addEventListener("click", completeTask);
   //add
   taskContainer.appendChild(taskDiv);
 };
+
+function completeTask() {
+  
+
+  this.classList.toggle("selected");
+  let currentProj = storage.getProject(logic.getCurrentProject());
+
+  currentProj;
+  let index = Array.prototype.indexOf.call(
+    this.parentNode.parentNode.children,
+    this.parentNode
+  );
+
+  if (this.classList == "selected") {
+    currentProj.list[index].status = true;
+  } else {
+    currentProj.list[index].status = false;
+  }
+
+  let replacement=createProject(currentProj.name);
+  replacement.setTasks(currentProj.list);
+  
+  storage.storeProject(replacement);
+
+
+}
 
 let taskInput = document.getElementById("editTitle");
 let description = document.getElementById("editDescription");
 let date = document.getElementById("editDate");
 let slider = document.getElementById("editAlert");
-// ----------------------------fill in the task pane--------------------------------------------
+
 function openTask() {
-  
-
-  // this. get the task name of the current project
-
-  let currentTask = this.textContent;
-  currentTask = currentTask.replaceAll(/\n/g, "");
-
-  //set attribute for the name so I can find it when I make changes
-  //try to get the value of the slider 
-
+  // let currentTask = this.nextElementSibling.textContent;
 
   let currentProj = storage.getProject(logic.getCurrentProject());
 
-  let index = Array.prototype.indexOf.call(this.parentNode.children, this);
-  
+  let index = Array.prototype.indexOf.call(
+    this.parentNode.parentNode.children,
+    this.parentNode
+  );
+
   taskView.setAttribute("data-currentTask", index);
 
-  taskInput.value = currentProj.list[index].name
+  taskInput.value = currentProj.list[index].name;
   description.value = currentProj.list[index].description;
-  // slider.value
-  let updateDate = currentProj.list[index].dueDate;
-  slider.checked=currentProj.list[index].alert;
 
-  date.value =updateDate.substring(0, 10);
+  let updateDate = currentProj.list[index].dueDate;
+  slider.checked = currentProj.list[index].alert;
+
+  date.value = updateDate.substring(0, 10);
 
   taskView.style.display = "flex";
   taskBG.style.display = "block";
 }
-
-
-
-

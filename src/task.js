@@ -4,8 +4,12 @@ let taskActions = {
   addDescription(description) {
     this.description = description;
   },
-  completeTask() {
-    this.status = true;
+  setStatus(status) {
+    if (status == true) {
+      this.status = true;
+    } else {
+      this.status = false;
+    }
   },
   setAlert(value) {
     if (value == true) {

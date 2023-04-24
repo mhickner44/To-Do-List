@@ -107,12 +107,35 @@ h2 {
   font-size: 1.5em;
   font-weight: 550;
 }
+/* --------------update the icon color----------------------- */
 
 .fa-circle-check {
   color: green;
 }
+
+#incomplete{
+  color: red;
+}
+/* ------------------------------------- */
+
+.selected{
+  text-decoration: line-through;
+  cursor: pointer;
+}
+
+
+
+/* ------------------------------------- */
+
+
+
 .fa-circle-exclamation {
   color: red;
+}
+
+
+#nonAlert{
+  color: white;
 }
 
 /* ------------------------------------- */
