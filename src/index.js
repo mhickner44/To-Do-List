@@ -23,6 +23,7 @@ let currentProject = null;
 let taskContainer = document.querySelector(".taskContainer");
 
 let exitTask = document.querySelector(".exit");
+let exitForm = document.querySelector(".formExit");
 
 function component() {
   //onload check for information
@@ -49,6 +50,8 @@ newtaskBtn.addEventListener("click", function () {
 
 projectForm.addEventListener("submit", (e) => {
   e.preventDefault();
+  
+  
   projectForm.style.display = "none";
   // insertBefore(addToPane(projectName.value), projectContainer.lastChild);
   projectContainer.appendChild(addToPane(projectName.value));
@@ -92,6 +95,11 @@ let taskBG = document.querySelector(".taskBG");
 exitTask.addEventListener("click", (e) => {
   taskView.style.display = "none";
   taskBG.style.display = "none";
+});
+
+exitForm.addEventListener("click", (e) => {
+  taskForm.style.display = "none";
+  
 });
 
 

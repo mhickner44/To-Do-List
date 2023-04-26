@@ -63,9 +63,8 @@ const addToPane = (projectName) => {
 const loadTasks = (project) => {
   let information = storage.getProject(project);
   let alertIcon = "";
-  let completeIcon = "";
-  //two values that cna change
-  //the style for the exclamation color
+  let complete = "";
+ 
   let color = "white";
 
   for (let i in information.list) {
@@ -74,31 +73,28 @@ const loadTasks = (project) => {
       color = "red";
     }
 
-    if (information.list[i].status != true) {
+    if (information.list[i].status == true) {
       //add the id to the html in a value
-      completeIcon = `id="incomplete"`;
+      complete = `selected`;
     }
     const taskDiv = document.createElement("div");
     taskDiv.classList.add("task");
 
     taskDiv.innerHTML = `
-    <p>${information.list[i].name}</p><div class="icons"><i class="fa-solid fa-circle-exclamation" style="color:${color};">
+    <p  class=${complete}>${information.list[i].name}</p><div class="icons"><i class="fa-solid fa-circle-exclamation" style="color:${color};">
     </i><span><i class="fa-solid fa-pen-to-square"></i></span><span><i class="fa-solid fa-trash"></i></span></div>
      `;
-     color = "white";
-     taskDiv.children[0].addEventListener("click", completeTask);
-     taskDiv.children[1].children[1].addEventListener("click", openTask);
-     taskDiv.children[1].children[2].addEventListener("click", deleteTask);
-     //add
-     taskContainer.appendChild(taskDiv);
-     
-    
+    color = "white";
+    complete="";
+    taskDiv.children[0].addEventListener("click", completeTask);
+    taskDiv.children[1].children[1].addEventListener("click", openTask);
+    taskDiv.children[1].children[2].addEventListener("click", deleteTask);
+    //add
+    taskContainer.appendChild(taskDiv);
   }
 
   return taskContainer;
 };
-
-
 
 const loadAddedTask = (projName, alert) => {
   const taskDiv = document.createElement("div");
@@ -110,24 +106,21 @@ const loadAddedTask = (projName, alert) => {
     color = "red";
   }
 
+  
+
   taskDiv.innerHTML = `
   <p >${projName}</p><div class="icons"><i class="fa-solid fa-circle-exclamation" style="color:${color};"></i>
   <span><i class="fa-solid fa-pen-to-square"></i></span><span><i class="fa-solid fa-trash"></i></span></div>
 `;
 
-
-taskDiv.children[0].addEventListener("click", completeTask);
-     taskDiv.children[1].children[1].addEventListener("click", openTask);
-     taskDiv.children[1].children[2].addEventListener("click", deleteTask);
+  taskDiv.children[0].addEventListener("click", completeTask);
+  taskDiv.children[1].children[1].addEventListener("click", openTask);
+  taskDiv.children[1].children[2].addEventListener("click", deleteTask);
   //add
   taskContainer.appendChild(taskDiv);
-
-
 };
 
 function completeTask() {
-  
-
   this.classList.toggle("selected");
   let currentProj = storage.getProject(logic.getCurrentProject());
 
@@ -143,12 +136,10 @@ function completeTask() {
     currentProj.list[index].status = false;
   }
 
-  let replacement=createProject(currentProj.name);
+  let replacement = createProject(currentProj.name);
   replacement.setTasks(currentProj.list);
-  
-  storage.storeProject(replacement,replacement.getName());
 
-
+  storage.storeProject(replacement, replacement.getName());
 }
 
 let taskInput = document.getElementById("editTitle");
@@ -180,8 +171,7 @@ function openTask() {
   taskBG.style.display = "block";
 }
 
-
-function deleteTask(){
+function deleteTask() {
   let currentProj = storage.getProject(logic.getCurrentProject());
 
   let index = Array.prototype.indexOf.call(
@@ -189,8 +179,7 @@ function deleteTask(){
     this.parentNode.parentNode
   );
 
-  // index=index-1;
-
-  storage.removeTask(currentProj,index);
-
+  taskContainer.innerHTML = "";
+  storage.removeTask(currentProj, index);
+  loadTasks(currentProj.name);
 }
