@@ -1,6 +1,7 @@
 import { storage } from "./storeInfo.js";
 import { logic } from "./logic.js";
 import { createProject } from "./project.js";
+import { removeTask } from "./storeInfo.js";
 
 export { addToPane };
 export { loadTasks };
@@ -81,18 +82,23 @@ const loadTasks = (project) => {
     taskDiv.classList.add("task");
 
     taskDiv.innerHTML = `
-    <button class="edit">edit</button><p>${information.list[i].name}</p>
-          <i class="fa-solid fa-circle-exclamation" style="color:${color}"></i>
+    <p>${information.list[i].name}</p><div class="icons"><i class="fa-solid fa-circle-exclamation" style="color:${color};">
+    </i><span><i class="fa-solid fa-pen-to-square"></i></span><span><i class="fa-solid fa-trash"></i></span></div>
      `;
-
-    taskDiv.firstElementChild.addEventListener("click", openTask);
-    taskDiv.children[1].addEventListener("click", completeTask);
-
-    taskContainer.appendChild(taskDiv);
+     color = "white";
+     taskDiv.children[0].addEventListener("click", completeTask);
+     taskDiv.children[1].children[1].addEventListener("click", openTask);
+     taskDiv.children[1].children[2].addEventListener("click", deleteTask);
+     //add
+     taskContainer.appendChild(taskDiv);
+     
+    
   }
 
   return taskContainer;
 };
+
+
 
 const loadAddedTask = (projName, alert) => {
   const taskDiv = document.createElement("div");
@@ -105,14 +111,18 @@ const loadAddedTask = (projName, alert) => {
   }
 
   taskDiv.innerHTML = `
-     <button class="edit">edit</button><p >${projName}</p>
-      <i class="fa-solid fa-circle-exclamation" style="color:${color};"></i>
+  <p >${projName}</p><div class="icons"><i class="fa-solid fa-circle-exclamation" style="color:${color};"></i>
+  <span><i class="fa-solid fa-pen-to-square"></i></span><span><i class="fa-solid fa-trash"></i></span></div>
 `;
 
-  taskDiv.firstElementChild.addEventListener("click", openTask);
-  taskDiv.children[1].addEventListener("click", completeTask);
+
+taskDiv.children[0].addEventListener("click", completeTask);
+     taskDiv.children[1].children[1].addEventListener("click", openTask);
+     taskDiv.children[1].children[2].addEventListener("click", deleteTask);
   //add
   taskContainer.appendChild(taskDiv);
+
+
 };
 
 function completeTask() {
@@ -136,7 +146,7 @@ function completeTask() {
   let replacement=createProject(currentProj.name);
   replacement.setTasks(currentProj.list);
   
-  storage.storeProject(replacement);
+  storage.storeProject(replacement,replacement.getName());
 
 
 }
@@ -152,8 +162,8 @@ function openTask() {
   let currentProj = storage.getProject(logic.getCurrentProject());
 
   let index = Array.prototype.indexOf.call(
-    this.parentNode.parentNode.children,
-    this.parentNode
+    taskContainer.children,
+    this.parentNode.parentNode
   );
 
   taskView.setAttribute("data-currentTask", index);
@@ -168,4 +178,19 @@ function openTask() {
 
   taskView.style.display = "flex";
   taskBG.style.display = "block";
+}
+
+
+function deleteTask(){
+  let currentProj = storage.getProject(logic.getCurrentProject());
+
+  let index = Array.prototype.indexOf.call(
+    taskContainer.children,
+    this.parentNode.parentNode
+  );
+
+  // index=index-1;
+
+  storage.removeTask(currentProj,index);
+
 }

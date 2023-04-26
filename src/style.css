@@ -260,3 +260,9 @@ input:checked + .slider:before {
   align-items: center;
   justify-content: space-around;
 }
+
+
+
+.icons{
+  display: flex;
+  gap:15px}

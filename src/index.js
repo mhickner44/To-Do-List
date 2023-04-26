@@ -60,7 +60,7 @@ projectForm.addEventListener("submit", (e) => {
   let tempList = [];
   let newProject = createProject(projectName.value, tempList);
 
-  storage.storeProject(newProject);
+  storage.storeProject(newProject,newProject.getName());
   projectForm.reset();
 });
 
@@ -83,7 +83,7 @@ taskForm.addEventListener("submit", (e) => {
 
   currentProj.addTask(task);
 
-  storage.storeProject(currentProj);
+  storage.storeProject(currentProj,currentProj.getName());
   taskForm.reset();
 });
 
@@ -121,7 +121,7 @@ taskEditForm.addEventListener("submit", (e) => {
   replacement.setTasks(currentProj.list);
   
   //updated project
-  storage.storeProject(replacement);
+  storage.storeProject(replacement,replacement.getName());
  
  //empty tasks container and then add them back
  taskContainer.innerHTML = "";
