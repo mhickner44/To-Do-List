@@ -47,7 +47,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 200px;
+  width: 260px;
   margin: 1em;
 
   background-color: transparent;
@@ -59,6 +59,8 @@ header {
   line-height: inherit;
   padding: 0;
   text-align: center;
+
+ 
 }
 
 .projectCreate,

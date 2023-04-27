@@ -50,46 +50,90 @@ newtaskBtn.addEventListener("click", function () {
 
 projectForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  
-  
-  projectForm.style.display = "none";
-  // insertBefore(addToPane(projectName.value), projectContainer.lastChild);
+  let ifExists = logic.existenceCheck(projectName.value,"project");
+
+ if(ifExists==false)
+ { projectForm.style.display = "none";
   projectContainer.appendChild(addToPane(projectName.value));
-  //setting the current project
-
   logic.setCurrentProject(projectName.value);
-
   //logically create
   let tempList = [];
   let newProject = createProject(projectName.value, tempList);
 
-  storage.storeProject(newProject,newProject.getName());
+  storage.storeProject(newProject, newProject.getName());
   projectForm.reset();
+  }else{
+    alert("insert new project name");
+  }
 });
 
 taskForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  taskForm.style.display = "none";
+  
+ 
+  let ifExists = logic.existenceCheck(taskName.value,"task",);
 
-  let alertValue = document.getElementById("alert");
-  loadAddedTask(taskName.value, alertValue.checked);
+  if(ifExists==false){
+    taskForm.style.display = "none";
 
-  //logically create
-  let task = createTask(taskName.value);
-  task.addDescription(freeform.value);
-  task.setAlert(alertValue.checked);
-  task.setDate(date.value);
+    let alertValue = document.getElementById("alert");
+    loadAddedTask(taskName.value, alertValue.checked);
 
+    //logically create
+    let task = createTask(taskName.value);
+    task.addDescription(freeform.value);
+    task.setAlert(alertValue.checked);
+    task.setDate(date.value);
 
-  let currentProjName = storage.getProject(logic.getCurrentProject());
-  let currentProj = createProject(currentProjName.name, currentProjName.list);
+    let currentProj = storage.getProject(logic.getCurrentProject());
+    let newProj = createProject(currentProj.name, currentProj.list);
 
-  currentProj.addTask(task);
+    newProj.addTask(task);
 
-  storage.storeProject(currentProj,currentProj.getName());
-  taskForm.reset();
+    storage.storeProject(newProj, newProj.getName());
+    taskForm.reset();
+  }else{
+    alert("task name exists already for this project");
+  }
+  
 });
 
+
+
+let taskEditForm = document.getElementById("taskEdit");
+let updateTaskDiv = document.querySelector(".taskView");
+let slider = document.getElementById("editAlert");
+let editDescription = document.getElementById("editDescription");
+
+taskEditForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+ 
+    taskView.style.display = "none";
+    taskBG.style.display = "none";
+
+    let currentProj = storage.getProject(logic.getCurrentProject());
+
+    let currentIndex = updateTaskDiv.getAttribute("data-currentTask");
+    let currentTask = currentProj.list[currentIndex];
+    let index = updateTaskDiv.getAttribute("data-currentTask");
+
+    currentProj.list[index].name = editTitle.value;
+    currentProj.list[index].description = editDescription.value;
+    currentProj.list[index].alert = slider.checked;
+
+    let replacement = createProject(currentProj.name);
+    replacement.setTasks(currentProj.list);
+
+    //updated project
+    storage.storeProject(replacement, replacement.getName());
+
+    //empty tasks container and then add them back
+    taskContainer.innerHTML = "";
+    loadTasks(logic.getCurrentProject());
+    taskForm.reset();
+ 
+});
 let taskView = document.querySelector(".taskView");
 let taskBG = document.querySelector(".taskBG");
 exitTask.addEventListener("click", (e) => {
@@ -99,43 +143,4 @@ exitTask.addEventListener("click", (e) => {
 
 exitForm.addEventListener("click", (e) => {
   taskForm.style.display = "none";
-  
 });
-
-
-let taskEditForm = document.getElementById("taskEdit");
-let updateTaskDiv = document.querySelector(".taskView");
-let slider = document.getElementById("editAlert");
-let editDescription = document.getElementById("editDescription");
-
-
-taskEditForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  taskView.style.display = "none";
-  taskBG.style.display = "none";
-
-
-  let currentProj = storage.getProject(logic.getCurrentProject());
-
-  let currentIndex = updateTaskDiv.getAttribute("data-currentTask");
-  let currentTask = currentProj.list[currentIndex];
-  let index=updateTaskDiv.getAttribute("data-currentTask");
-
-  currentProj.list[index].name=editTitle.value;
-  currentProj.list[index].description=editDescription.value;
-  currentProj.list[index].alert=slider.checked;
-  
-  let replacement=createProject(currentProj.name);
-  replacement.setTasks(currentProj.list);
-  
-  //updated project
-  storage.storeProject(replacement,replacement.getName());
- 
- //empty tasks container and then add them back
- taskContainer.innerHTML = "";
- loadTasks(logic.getCurrentProject());
-  taskForm.reset();
-   
-});
-
-

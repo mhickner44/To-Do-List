@@ -1,4 +1,4 @@
-import { createProject } from "./project.js";
+
 export { storage };
 
 Storage.prototype.setObject = function (key, value) {
@@ -7,9 +7,6 @@ Storage.prototype.setObject = function (key, value) {
 
 Storage.prototype.getObject = function (key) {
   return JSON.parse(this.getItem(key));
-};
-Storage.prototype.getStorage = function (key) {
-  return JSON.parse(this.JSON);
 };
 
 
@@ -30,5 +27,5 @@ const storage = (() => {
     storeProject(project,project.name);
   };
 
-  return { storeProject, getProject, getStorage, removeTask };
+  return { storeProject, getProject,  removeTask };
 })();
