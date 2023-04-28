@@ -152,7 +152,7 @@ h2 {
   font-size: 1.5em;
   font-weight: 550;
 }
-/* --------------update the icon color----------------------- */
+
 
 .fa-circle-check {
   color: green;
@@ -161,7 +161,6 @@ h2 {
 #incomplete {
   color: red;
 }
-/* ------------------------------------- */
 
 .selected {
   text-decoration: line-through;
@@ -176,7 +175,7 @@ h2 {
   color: white;
 }
 
-/* ------------------------------------- */
+
 
 .taskView {
   position: fixed;

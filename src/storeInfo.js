@@ -19,9 +19,6 @@ const storage = (() => {
     return localStorage.getObject(project);
   };
 
-  const getStorage = () => {
-    return localStorage.getStorage();
-  };
   const removeTask = (project, task) => {
     project.list.splice(task, 1);
     storeProject(project,project.name);

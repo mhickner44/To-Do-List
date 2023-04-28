@@ -1,7 +1,7 @@
 import { storage } from "./storeInfo.js";
 import { logic } from "./logic.js";
 import { createProject } from "./project.js";
-import { removeTask } from "./storeInfo.js";
+
 
 export { addToPane };
 export { loadTasks };
@@ -10,8 +10,6 @@ export { initialLoad };
 
 let taskContainer = document.querySelector(".taskContainer");
 let projectContainer = document.querySelector(".projectContainer");
-let body = document.querySelector("body");
-
 let taskView = document.querySelector(".taskView");
 let taskBG = document.querySelector(".taskBG");
 
@@ -52,7 +50,7 @@ const addToPane = (projectName) => {
   projectDiv.appendChild(projectLabel);
 
   projectLabel.addEventListener("click", function () {
-    // i need to get the project itself with a function
+   
     taskContainer.innerHTML = "";
     loadTasks(this.getAttribute("data-name"));
     logic.setCurrentProject(this.getAttribute("data-name"));
@@ -63,19 +61,18 @@ const addToPane = (projectName) => {
 
 const loadTasks = (project) => {
   let information = storage.getProject(project);
-  let alertIcon = "";
   let complete = "";
  
   let color = "white";
 
   for (let i in information.list) {
     if (information.list[i].alert == true) {
-      //add the id to the html in a value
+    
       color = "red";
     }
 
     if (information.list[i].status == true) {
-      //add the id to the html in a value
+      
       complete = `selected`;
     }
     const taskDiv = document.createElement("div");
@@ -100,16 +97,12 @@ const loadTasks = (project) => {
 const loadAddedTask = (projName, alert) => {
   const taskDiv = document.createElement("div");
   taskDiv.classList.add("task");
-  // ------------------------------------------------------------------------
 
   let color = "white";
   if (alert == true) {
     color = "red";
   }
-
-  
-
-  taskDiv.innerHTML = `
+ taskDiv.innerHTML = `
   <p >${projName}</p><div class="icons"><i class="fa-solid fa-circle-exclamation" style="color:${color};"></i>
   <span><i class="fa-solid fa-pen-to-square"></i></span><span><i class="fa-solid fa-trash"></i></span></div>
 `;
@@ -149,7 +142,6 @@ let date = document.getElementById("editDate");
 let slider = document.getElementById("editAlert");
 
 function openTask() {
-  // let currentTask = this.nextElementSibling.textContent;
 
   let currentProj = storage.getProject(logic.getCurrentProject());
 

@@ -26,7 +26,7 @@ let exitTask = document.querySelector(".exit");
 let exitForm = document.querySelector(".formExit");
 
 function component() {
-  //onload check for information
+ 
   if (localStorage.length >= 1) {
   
     // projectContainer.appendChild(initialLoad());
@@ -42,8 +42,6 @@ function component() {
 }
 
 component();
-
-//loading the work tasks
 
 createProjectBtn.addEventListener("click", function () {
   projectForm.style.display = "block";
@@ -67,7 +65,7 @@ projectForm.addEventListener("submit", (e) => {
  { projectForm.style.display = "none";
   projectContainer.appendChild(addToPane(projectName.value));
   logic.setCurrentProject(projectName.value);
-  //logically create
+  
   let tempList = [];
   let newProject = createProject(projectName.value, tempList);
 
@@ -126,7 +124,6 @@ taskEditForm.addEventListener("submit", (e) => {
     let currentProj = storage.getProject(logic.getCurrentProject());
 
     let currentIndex = updateTaskDiv.getAttribute("data-currentTask");
-    let currentTask = currentProj.list[currentIndex];
     let index = updateTaskDiv.getAttribute("data-currentTask");
 
     currentProj.list[index].name = editTitle.value;
@@ -139,7 +136,6 @@ taskEditForm.addEventListener("submit", (e) => {
     //updated project
     storage.storeProject(replacement, replacement.getName());
 
-    //empty tasks container and then add them back
     taskContainer.innerHTML = "";
     loadTasks(logic.getCurrentProject());
     taskForm.reset();
