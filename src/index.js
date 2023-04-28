@@ -28,10 +28,16 @@ let exitForm = document.querySelector(".formExit");
 function component() {
   //onload check for information
   if (localStorage.length >= 1) {
+  
     // projectContainer.appendChild(initialLoad());
     initialLoad();
     logic.setCurrentProject(localStorage.key(0));
-    loadTasks(logic.getCurrentProject());
+    let current=logic.getCurrentProject();
+    loadTasks(current);
+  
+    let projectChoice=document.querySelectorAll(".projectChoice");
+    projectChoice[0].children[0].checked=true;
+   
   }
 }
 
@@ -45,7 +51,12 @@ createProjectBtn.addEventListener("click", function () {
 });
 
 newtaskBtn.addEventListener("click", function () {
-  taskForm.style.display = "flex";
+  if (localStorage.length > 0) {
+    taskForm.style.display = "flex";
+}else{
+  alert("Please create a project first");
+}
+ 
 });
 
 projectForm.addEventListener("submit", (e) => {

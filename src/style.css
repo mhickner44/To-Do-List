@@ -33,22 +33,23 @@ header {
 
 .wrapper {
   display: grid;
-  grid-template-columns: 1.4fr 4fr;
+  grid-template-columns: .4fr 4fr;
   height: 85%;
   text-align: center;
   font-size: 2em;
 }
 
 .projectPane {
-  border-right: solid 2px black;
+  border-right: solid 5px #990011ff;
 }
 
 .project {
-  display: flex;
+  /* display: flex; */
+  display: block;
   align-items: center;
   justify-content: space-between;
   width: 260px;
-  margin: 1em;
+  margin: 1em 0em 1em 1em;
 
   background-color: transparent;
   border-width: 0;
@@ -76,6 +77,10 @@ header {
 }
 
 /* label css for highlighted current list */
+.projectChoice{
+  display:flex;
+  align-items: center;
+}
 
 .projectChoice > input {
   display: none;
@@ -84,7 +89,10 @@ label {
   cursor: pointer;
 }
 .projectChoice > input:checked + label {
-  background: grey;
+  background: #990011ff;
+  color:white;
+  border-radius:5px 0px 0px 5px;
+  padding:5px;
 }
 
 #newProject {

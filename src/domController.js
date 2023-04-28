@@ -16,9 +16,8 @@ let taskView = document.querySelector(".taskView");
 let taskBG = document.querySelector(".taskBG");
 
 const initialLoad = () => {
-  // let div=document.createElement("div");
-  // for (let i=localStorage.length; i>=0;i--) {
-  for (let i = 0; i <= localStorage.length; i++) {
+
+  for (let i = 0; i < localStorage.length; i++) {
     let project = localStorage.key(i);
     projectContainer.appendChild(addToPane(project));
   }
@@ -35,9 +34,12 @@ const addToPane = (projectName) => {
   projectLabel.textContent = projectName;
   projectLabel.setAttribute("data-name", projectName);
 
-  //icon creation
+  
   const icon = document.createElement("i");
-  icon.classList.add("fa-solid", "fa-bars");
+  icon.classList.add("fa-solid" );
+  icon.classList.add("fa-bars");
+
+  
 
   const input = document.createElement("input");
 
@@ -45,13 +47,12 @@ const addToPane = (projectName) => {
   input.id = projectName;
   input.name = "options";
   input.checked = true;
-
+  projectDiv.appendChild(icon);
   projectDiv.appendChild(input);
   projectDiv.appendChild(projectLabel);
 
   projectLabel.addEventListener("click", function () {
     // i need to get the project itself with a function
-
     taskContainer.innerHTML = "";
     loadTasks(this.getAttribute("data-name"));
     logic.setCurrentProject(this.getAttribute("data-name"));
